@@ -1,12 +1,21 @@
-import Landing from './pages/landing.vue';
-import About from './pages/about.vue';
+import Vue from 'vueCommon';
+import VueRouter from 'vue-router';
 
-export default [{
-  path: '/',
-  component: Landing,
-  name: 'landing'
-}, {
-  path: '/about',
-  component: About,
-  name: 'about'
-}];
+Vue.use(VueRouter);
+
+import Landing from './pages/Landing.vue';
+import About from './pages/About.vue';
+
+const router = new VueRouter({
+  routes: [{
+    name: 'landing',
+    path: '/',
+    component: Landing
+  }, {
+    name: 'about',
+    path: '/about',
+    component: About
+  }]
+});
+
+export default router;

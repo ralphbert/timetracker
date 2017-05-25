@@ -1,18 +1,16 @@
 import Vue from 'vueCommon';
-import VueRouter from 'vue-router';
-import Routes from './routes';
-import App from './app.vue';
+import router from './routes';
+import store from './store';
+import App from './components/App.vue';
+import * as DateFilters from './filters/date';
 
-Vue.use(VueRouter);
 
-console.log(Routes);
-
-const router = new VueRouter({
-  Routes
-});
+Vue.filter('duration', DateFilters.duration);
 
 new Vue({
   router,
+  store,
   components: { App },
-  template: `<app></app>`
-}).$mount('#app');
+  template: `<app></app>`,
+  el: '#app'
+});

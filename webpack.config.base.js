@@ -18,24 +18,20 @@ module.exports = {
       ]
     }, {
       test: /\.js$/,
+      exclude: /node_modules/,
       use: [{
-        loader: 'babel-loader',
-        options: { presets: ['es2015'] }
+        loader: 'babel-loader'
       }]
     }, {
       test: /\.vue$/,
       use: ['vue-loader']
     }]
   },
+  plugins: [],
   resolve: {
     modules: ["node_modules", "bower_components"],
     alias: {
       "vueCommon": path.join(__dirname, 'node_modules/vue/dist/vue.common.js')
     }
-  },
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor'
-    })
-  ]
+  }
 };

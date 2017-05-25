@@ -68,6 +68,16 @@ gulp.task('watch', function () {
   gulp.watch('src/templates/**/*', ['templates']);
 });
 
+gulp.task('test', function() {
+  let config = require('./webpack.config.test');
+  console.log('config', config);
+  gulp.src('test/*.js')
+    .pipe(plumber())
+    .pipe(named())
+    .pipe(webpackStream(config, webpack))
+    .pipe(gulp.dest('test/build'));
+});
+
 gulp.task('serve', function () {
   browserSync.init({
     server: {
