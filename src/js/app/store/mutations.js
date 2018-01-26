@@ -1,5 +1,6 @@
 export const ADD_PROJECT = 'addProject';
 export const SET_PROJECTS = 'SET_PROJECTS';
+export const SET_TOTALS = 'SET_TOTALS';
 export const ADD_ERROR = 'ADD_ERROR';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const SET_PROJECT_LOADING = 'SET_PROJECT_LOADING';
@@ -53,5 +54,8 @@ export default {
   },
   [CLEAR_CURRENT_LOG](store, payload) {
     store.currentLog = null;
+  },
+  [SET_TOTALS](store, payload) {
+    store.totals = payload;
   }
 }

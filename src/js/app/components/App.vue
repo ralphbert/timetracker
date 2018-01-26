@@ -15,6 +15,7 @@
     import * as mutations from '../store/mutations';
     import { projectsRef, database } from '../api/firebase';
     import api from '../api/apiInterface';
+    import { Transformer, Task } from '../api/models';
 
     export default {
         mounted: function() {
@@ -32,6 +33,16 @@
             } else {
               this.$store.commit(mutations.SET_CONNECTION_STATUS, 'disconnected');
             }
+          });
+
+          database.ref('totals').on('value', (snapshot) => {
+            let totals = Transformer.listSnapshotToArray(snapshot);
+            this.$store.commit(mutations.SET_TOTALS, totals);
+          });
+
+          database.ref('logs').orderByChild('startTime').on('value', snapshot => {
+            let logs = Transformer.listSnapshotToArray(snapshot);
+            this.$store.commit(mutations.SET_LOGS, { logs });
           });
         }
     }

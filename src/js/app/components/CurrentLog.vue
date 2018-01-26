@@ -1,18 +1,9 @@
 <template lang="html">
     <div>
-        <p>{{ 1000 | duration }}</p>
-        <p>{{ 12000 | duration }}</p>
-        <p>{{ 3721000 | duration }}</p>
-        <p>{{ 3600000 | duration }}</p>
-        <p>{{ 3610000 | duration }}</p>
-
-
         <hr>
         {{ $store.state.currentLog }}
-        <hr>
-        {{ $store.state.logs }}
         <ul>
-            <li v-for="log in $store.state.logs">{{ log.description }}, {{ log.startTime }}, {{ log.endTime }}, {{ getProject(log) }}, {{ getDuration(log) | duration }}</li>
+            <li v-for="log in logs">{{ log.description }}, {{ log.startTime }}, {{ log.endTime }}, {{ getProject(log) }}, {{ getDuration(log) | duration }}</li>
         </ul>
     </div>
 </template>
@@ -37,11 +28,15 @@
       },
       getProject(log) {
         let hit = this.$store.state.projects.find((project) => {
-            console.log('find project', project);
             return project.id == log.project;
         });
 
         return (hit) ? hit.name : 'unknown'
+      }
+    },
+    computed: {
+      logs: function() {
+        return this.$store.state.logs;
       }
     },
     mounted: function() {

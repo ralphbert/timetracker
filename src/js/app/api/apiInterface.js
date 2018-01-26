@@ -1,5 +1,5 @@
 import { projectsRef, database } from './firebase';
-import { ProjectTransformer, Task } from './models';
+import { Transformer, Task } from './models';
 
 class ApiInterface {
   constructor() {
@@ -11,7 +11,7 @@ class ApiInterface {
       console.log('enable project listener');
       this.liveProjectUpdate = true;
       projectsRef.orderByChild('startTime').on('value', snapshot => {
-        let projects = ProjectTransformer.listSnapshotToArray(snapshot);
+        let projects = Transformer.listSnapshotToArray(snapshot);
         cb(projects);
       });
     } else if (!enable) {

@@ -15,7 +15,8 @@ let store = {
     projects: [],
     projectsLoading: false,
     currentLog: null,
-    errors: {}
+    errors: {},
+    totals: []
   },
   actions: actions,
   mutations: mutations,

@@ -1,8 +1,9 @@
 <template lang="html">
     <div>
+        totals: {{ $store.state.totals }}
         <ul >
             <li v-for="project in projects">
-                {{ project.name }}
+                {{ project.name }} ({{ getTotalDuration(project) | duration }})
 
                 <ul>
                     <li v-for="(value, key) in project.tasks">
@@ -58,6 +59,14 @@
         }
 
         return false;
+      },
+      getTotalDuration: function(project) {
+        let total = this.$store.state.totals.find(total => total.id == project.id);
+
+        if (total) {
+          return total.duration;
+        }
+        return 0;
       }
     }
   }

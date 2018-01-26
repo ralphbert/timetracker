@@ -51,9 +51,12 @@ export default {
   },
   [END_ALL_TRACKINGS](context) {
     console.log(END_ALL_TRACKINGS);
+    let updateRoutines = [];
     let updates = {};
     let logsRef = firebase.database().ref('logs');
+
     logsRef.orderByChild('endTime').equalTo(0).once('value', (snapshot) => {
+      let totalWorkingTime = {};
 
       snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key;
@@ -61,15 +64,39 @@ export default {
 
         if (childData && childKey) {
           childData.endTime = (new Date()).getTime();
+          childData.duration = childData.endTime - childData.startTime;
           updates['logs/' + childKey] = childData;
 
-          console.log('startTracking: ', childKey, childData);
+          if (!totalWorkingTime[childData.project]) {
+            totalWorkingTime[childData.project] = 0;
+          }
+
+          totalWorkingTime[childData.project] += childData.endTime - childData.startTime;
         }
 
       });
+
+
+      Object.keys(totalWorkingTime).forEach(key => {
+        firebase.database().ref('totals/' + key).once('value', (snapshot) => {
+          let data = snapshot.val();
+
+          if (!data) {
+            data = {
+              duration: 0
+            };
+          }
+
+          data.duration += totalWorkingTime[key];
+          firebase.database().ref('totals/' + key).update(data);
+        });
+      });
+        console.log('totalWorkingTime', totalWorkingTime);
     });
 
-    return firebase.database().ref().update(updates).then(() => {
+    updateRoutines.push(firebase.database().ref().update(updates));
+
+    return Promise.all(updateRoutines).then(() => {
       context.commit(mutations.CLEAR_CURRENT_LOG);
       return Promise.resolve();
     });

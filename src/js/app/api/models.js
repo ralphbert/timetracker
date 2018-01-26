@@ -29,14 +29,13 @@ export class Log extends Entity {
   }
 }
 
-export class ProjectTransformer {
+export class Transformer {
   static listSnapshotToArray(snapshot) {
     let projects = [];
     snapshot.forEach(function(childSnapshot) {
       var childKey = childSnapshot.key;
       var childData = childSnapshot.val();
       childData.id = childKey;
-      console.log(childData.tasks);
       projects.push(childData);
     });
 
